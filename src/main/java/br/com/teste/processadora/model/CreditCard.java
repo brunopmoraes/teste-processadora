@@ -9,21 +9,31 @@ import javax.persistence.Id;
 
 import org.hibernate.annotations.GenericGenerator;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
-@Data
 public class CreditCard {
 
 	@Id
 	@GeneratedValue(generator="system-uuid")
 	@GenericGenerator(name="system-uuid", strategy = "uuid")
+	@Getter
+	@Setter
 	private UUID id;
 	
+	@Getter
+	@Setter
 	private String number;
 	
+	@Getter
+	@Setter
 	private BigDecimal approvedCredit;
 	
+	@Getter	
 	private BigDecimal balance;
 	
+	public void subtractBalance(BigDecimal amount) {
+		this.balance = balance.subtract(amount);
+	}	
 }
