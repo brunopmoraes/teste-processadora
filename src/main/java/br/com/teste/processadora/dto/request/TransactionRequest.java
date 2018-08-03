@@ -4,10 +4,12 @@ import java.math.BigDecimal;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import br.com.teste.processadora.model.enums.Action;
+import br.com.teste.processadora.model.enums.ActionTransaction;
+import lombok.Builder;
 import lombok.Data;
 
 @Data
+@Builder
 public class TransactionRequest {
 
 	private String action;
@@ -21,7 +23,7 @@ public class TransactionRequest {
 		return new BigDecimal(amount.replace(",", "."));
 	}
 	
-	public Action getAction() {
-		return Action.getActionByDescription(action);
+	public ActionTransaction getAction() {
+		return ActionTransaction.getActionByDescription(action);
 	}
 }

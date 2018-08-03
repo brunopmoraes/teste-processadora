@@ -10,7 +10,7 @@ import javax.persistence.ManyToOne;
 
 import org.hibernate.annotations.GenericGenerator;
 
-import br.com.teste.processadora.model.enums.Action;
+import br.com.teste.processadora.model.enums.ActionTransaction;
 import br.com.teste.processadora.model.enums.StatusCode;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -29,7 +29,7 @@ public class TransactionCreditCard {
 	@GenericGenerator(name="system-uuid", strategy = "uuid")
 	private UUID id;
 
-	private Action action;
+	private ActionTransaction action;
 	
 	private String authorizationCode;
 	

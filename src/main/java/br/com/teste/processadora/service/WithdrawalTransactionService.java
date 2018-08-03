@@ -2,34 +2,43 @@ package br.com.teste.processadora.service;
 
 import java.util.Objects;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import br.com.teste.processadora.dto.request.TransactionRequest;
 import br.com.teste.processadora.model.CreditCard;
 import br.com.teste.processadora.model.TransactionCreditCard;
 import br.com.teste.processadora.model.enums.StatusCode;
+import br.com.teste.processadora.repository.CreditCardRepository;
+import br.com.teste.processadora.repository.TransactionCreditCardRepository;
 
 @Service
-public class WithdrawalTransactionService extends TransactionalService {
+public class WithdrawalTransactionService implements ActionTransactionService {
 
+	@Autowired
+	private CreditCardRepository creditCardRepository;
+	
+	@Autowired
+	private TransactionCreditCardRepository transactionCreditCardRepository;
+	
 	@Override
-	public TransactionCreditCard doTransaction(TransactionRequest transactionRequest) {
+	public TransactionCreditCard executeAction(TransactionRequest transactionRequest) {
 
 		TransactionCreditCard transactionCreditCard = TransactionCreditCard.builder()
 														.action(transactionRequest.getAction())
 														.amount(transactionRequest.getAmount())
 														.authorizationCode("")
 														.build();
-		
 		try {
-			CreditCard creditCard = new CreditCard();//creditCardRepository.findByNumber(transactionRequest.getCardNumber());
+			CreditCard creditCard = creditCardRepository.findByNumber(transactionRequest.getCardNumber());
 			transactionCreditCard.setCreditCard(creditCard);
 			
 			if (isValidTransaction(transactionCreditCard)) {
 				creditCard.subtractBalance(transactionCreditCard.getAmount());
-				// TODO save transaction
-				// TODO update credit card				
+				creditCardRepository.save(creditCard);
 			}
+			
+			transactionCreditCardRepository.save(transactionCreditCard);
 			
 			return transactionCreditCard;
 		} catch (Exception ex) {
@@ -39,7 +48,7 @@ public class WithdrawalTransactionService extends TransactionalService {
 	}
 
 	private boolean isValidTransaction(TransactionCreditCard transactionCreditCard) {
-		return isValidCreditCard(transactionCreditCard);		
+		return isValidCreditCard(transactionCreditCard);
 	}
 
 	private boolean isValidCreditCard(TransactionCreditCard transactionCreditCard) {
