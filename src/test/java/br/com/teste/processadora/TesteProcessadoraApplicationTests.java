@@ -1,4 +1,4 @@
-package br.com.teste.processadora.testeprocessadora;
+package br.com.teste.processadora;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
