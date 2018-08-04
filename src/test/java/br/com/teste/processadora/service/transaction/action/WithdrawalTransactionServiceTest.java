@@ -84,7 +84,7 @@ public class WithdrawalTransactionServiceTest {
 	
 	@Test
 	public void testTransactionalInvalidCount() {
-//		when(creditCardRepository.findByNumber(anyString())).thenReturn(null);
+		when(creditCardRepository.findByNumber(anyString())).thenReturn(null);
 		
 		TransactionCreditCard transactionCreditCard = withdrawalTransactionService.executeAction(
 				TransactionRequest.builder()

@@ -4,6 +4,8 @@ import java.math.BigDecimal;
 import java.util.UUID;
 
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
@@ -29,10 +31,12 @@ public class TransactionCreditCard {
 	@GenericGenerator(name = "pg-uuid", strategy = "uuid2")
 	private UUID id;
 
+	@Enumerated(EnumType.STRING)
 	private ActionTransaction action;
 	
 	private String authorizationCode;
 	
+	@Enumerated(EnumType.STRING)
 	private StatusCode code;
 	
 	private BigDecimal amount;

@@ -1,12 +1,11 @@
 package br.com.teste.processadora.service;
 
-import java.security.MessageDigest;
 import java.util.Objects;
 import java.util.UUID;
 
+import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,10 +25,6 @@ public class TransactionCreditCardService {
 	@Autowired
 	private TransactionCreditCardRepository transactionCreditCardRepository;
 	
-	@Autowired
-	@Qualifier("sha256Bean")
-	private MessageDigest sha256Digest;
-	
 	public TransactionCreditCard save(TransactionCreditCard transactionCreditCard) throws AuthorizationCodeGenerationException {
 		
 		if (transactionCreditCard.getCode().equals(StatusCode.APROVED)) {
@@ -40,8 +35,8 @@ public class TransactionCreditCardService {
 	}
 
 	private String generateNewAuthorizationCode() throws AuthorizationCodeGenerationException {
-		byte[] hash = sha256Digest.digest(UUID.randomUUID().toString().getBytes());
-		String authorizationCode = StringUtils.left(new String(hash), 6);
+		String sha256Hex = DigestUtils.sha256Hex(UUID.randomUUID().toString());
+		String authorizationCode = StringUtils.left(new String(sha256Hex), 6);
 		
 		for (int i = 0; i < maxAttemptAuthorizationCode; i++) {
 			TransactionCreditCard transactionCreditCard = transactionCreditCardRepository
