@@ -9,4 +9,9 @@ spring:
       naming: 
         strategy: org.hibernate.cfg.ImprovedNamingStrategy
   jooq: 
-    sql-dialect: org.hibernate.dialect.PostgreSQLDialect 
+    sql-dialect: org.hibernate.dialect.PostgreSQLDialect
+    
+application: 
+  max: 
+    attempt: 
+      authorization-code: 5

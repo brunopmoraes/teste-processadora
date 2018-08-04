@@ -1,4 +1,4 @@
-package br.com.teste.processadora.service;
+package br.com.teste.processadora.service.transaction.action;
 
 import java.util.Objects;
 
@@ -11,7 +11,7 @@ import br.com.teste.processadora.model.CreditCard;
 import br.com.teste.processadora.model.TransactionCreditCard;
 import br.com.teste.processadora.model.enums.StatusCode;
 import br.com.teste.processadora.repository.CreditCardRepository;
-import br.com.teste.processadora.repository.TransactionCreditCardRepository;
+import br.com.teste.processadora.service.TransactionCreditCardService;
 
 @Service
 @Transactional
@@ -21,7 +21,7 @@ public class WithdrawalTransactionService implements ActionTransactionService {
 	private CreditCardRepository creditCardRepository;
 	
 	@Autowired
-	private TransactionCreditCardRepository transactionCreditCardRepository;
+	private TransactionCreditCardService transactionCreditCardService;
 	
 	@Override
 	public TransactionCreditCard executeAction(TransactionRequest transactionRequest) {
@@ -29,7 +29,6 @@ public class WithdrawalTransactionService implements ActionTransactionService {
 		TransactionCreditCard transactionCreditCard = TransactionCreditCard.builder()
 														.action(transactionRequest.getAction())
 														.amount(transactionRequest.getAmount())
-														.authorizationCode("")
 														.build();
 		try {
 			CreditCard creditCard = creditCardRepository.findByNumber(transactionRequest.getCardNumber());
@@ -40,7 +39,7 @@ public class WithdrawalTransactionService implements ActionTransactionService {
 				creditCardRepository.save(creditCard);
 			}
 			
-			transactionCreditCardRepository.save(transactionCreditCard);
+			transactionCreditCardService.save(transactionCreditCard);
 			
 			return transactionCreditCard;
 		} catch (Exception ex) {

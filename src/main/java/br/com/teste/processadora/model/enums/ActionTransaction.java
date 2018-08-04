@@ -2,8 +2,8 @@ package br.com.teste.processadora.model.enums;
 
 import java.util.Arrays;
 
-import br.com.teste.processadora.service.ActionTransactionService;
-import br.com.teste.processadora.service.WithdrawalTransactionService;
+import br.com.teste.processadora.service.transaction.action.ActionTransactionService;
+import br.com.teste.processadora.service.transaction.action.WithdrawalTransactionService;
 
 public enum ActionTransaction {
 	

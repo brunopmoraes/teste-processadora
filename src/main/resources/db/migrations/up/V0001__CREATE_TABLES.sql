@@ -14,5 +14,6 @@ CREATE TABLE transaction_credit_card(
     code VARCHAR(20) NOT NULL,
     amount DECIMAL(10,2) NOT NULL,
     credit_card_id UUID,
+    UNIQUE (authorization_code),
     CONSTRAINT fk_transaction_credit_card FOREIGN KEY (credit_card_id) REFERENCES credit_card(ID)
 );

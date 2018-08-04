@@ -1,4 +1,4 @@
-package br.com.teste.processadora.service;
+package br.com.teste.processadora.service.transaction.action;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -24,6 +24,7 @@ import br.com.teste.processadora.model.enums.ActionTransaction;
 import br.com.teste.processadora.model.enums.StatusCode;
 import br.com.teste.processadora.repository.CreditCardRepository;
 import br.com.teste.processadora.repository.TransactionCreditCardRepository;
+import br.com.teste.processadora.service.transaction.action.WithdrawalTransactionService;
 import br.com.teste.processadora.utils.CreditCardUtils;
 
 @SpringBootTest
@@ -48,6 +49,7 @@ public class WithdrawalTransactionServiceTest {
 					return (TransactionCreditCard) invocation.getArguments()[0];
 				}
 			});
+		when(transactionCreditCardRepository.findByAuthorizationCode(anyString())).thenReturn(null);
 	}
 	
 	@Test

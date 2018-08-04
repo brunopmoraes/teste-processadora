@@ -10,4 +10,6 @@ import br.com.teste.processadora.model.TransactionCreditCard;
 @Repository
 public interface TransactionCreditCardRepository extends CrudRepository<TransactionCreditCard, UUID> {
 
+	TransactionCreditCard findByAuthorizationCode(String authorizationCode);
+	
 }

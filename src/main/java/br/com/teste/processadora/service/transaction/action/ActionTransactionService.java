@@ -1,4 +1,4 @@
-package br.com.teste.processadora.service;
+package br.com.teste.processadora.service.transaction.action;
 
 import br.com.teste.processadora.dto.request.TransactionRequest;
 import br.com.teste.processadora.model.TransactionCreditCard;
