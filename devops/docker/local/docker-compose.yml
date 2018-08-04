@@ -1,6 +1,6 @@
 version: "3"
 services: 
-  postgres:
+  postgresdb:
     image: postgres:10.4
     restart: always
     environment: 
@@ -9,3 +9,15 @@ services:
       - POSTGRES_PASSWORD=root
     ports: 
       - "5432:5432"
+
+  teste-processadora:
+    build: 
+      context: ../../../
+    restart: always
+    ports: 
+      - "8080:8080"
+      - "9999:9999"
+    environment: 
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgresdb:5432/teste_processadora
+    links: 
+      - postgresdb
