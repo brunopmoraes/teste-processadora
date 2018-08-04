@@ -4,6 +4,7 @@ import java.util.Objects;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import br.com.teste.processadora.dto.request.TransactionRequest;
 import br.com.teste.processadora.model.CreditCard;
@@ -13,6 +14,7 @@ import br.com.teste.processadora.repository.CreditCardRepository;
 import br.com.teste.processadora.repository.TransactionCreditCardRepository;
 
 @Service
+@Transactional
 public class WithdrawalTransactionService implements ActionTransactionService {
 
 	@Autowired

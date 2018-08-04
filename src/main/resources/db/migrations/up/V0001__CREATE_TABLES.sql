@@ -1,10 +1,10 @@
 CREATE TABLE credit_card (
     id UUID PRIMARY KEY,
-    number BIGINT NOT NULL,
+    number VARCHAR(16) NOT NULL,
     approved_credit DECIMAL(10, 2) NOT NULL,
     balance DECIMAL(10,2) NOT NULL,
     UNIQUE (number),
-    CHECK (balance > 0)
+    CHECK (balance >= 0)
 );
 
 CREATE TABLE transaction_credit_card(

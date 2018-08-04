@@ -25,8 +25,8 @@ import lombok.NoArgsConstructor;
 public class TransactionCreditCard {
 
 	@Id
-	@GeneratedValue(generator="system-uuid")
-	@GenericGenerator(name="system-uuid", strategy = "uuid")
+	@GeneratedValue(generator = "pg-uuid")
+	@GenericGenerator(name = "pg-uuid", strategy = "uuid2")
 	private UUID id;
 
 	private ActionTransaction action;

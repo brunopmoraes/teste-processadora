@@ -1,13 +1,12 @@
 spring:
   datasource:
     url: jdbc:postgresql://localhost:5432/teste_processadora
-    hikari: 
-      jdbc-url: jdbc:postgresql://localhost:5432/teste_processadora
-      driver-class-name: org.postgresql.Driver
-      username: root
-      password: root
+    driver-class-name: org.postgresql.Driver
+    username: root
+    password: root
   jpa:
     hibernate:
-      naming:
-        physical-strategy: org.hibernate.cfg.ImprovedNamingStrategy
-        
+      naming: 
+        strategy: org.hibernate.cfg.ImprovedNamingStrategy
+  jooq: 
+    sql-dialect: org.hibernate.dialect.PostgreSQLDialect 
