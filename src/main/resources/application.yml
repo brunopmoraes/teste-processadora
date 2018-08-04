@@ -15,3 +15,6 @@ application:
   max: 
     attempt: 
       authorization-code: 5
+  socket: 
+    tcp: 
+      port: 9999

@@ -2,6 +2,8 @@ package br.com.teste.processadora.service.transaction.action;
 
 import java.util.Objects;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,6 +19,8 @@ import br.com.teste.processadora.service.TransactionCreditCardService;
 @Transactional
 public class WithdrawalTransactionService implements ActionTransactionService {
 
+	private static final Logger logger = LoggerFactory.getLogger(WithdrawalTransactionService.class);
+	
 	@Autowired
 	private CreditCardRepository creditCardRepository;
 	
@@ -43,6 +47,7 @@ public class WithdrawalTransactionService implements ActionTransactionService {
 			
 			return transactionCreditCard;
 		} catch (Exception ex) {
+			logger.error(ex.getMessage(), ex);
 			transactionCreditCard.setCode(StatusCode.PROCESS_ERROR);
 			return transactionCreditCard;
 		}
