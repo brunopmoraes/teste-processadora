@@ -6,7 +6,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.integration.annotation.Transformer;
 import org.springframework.integration.channel.DirectChannel;
 import org.springframework.integration.config.EnableIntegration;
-import org.springframework.integration.ip.tcp.TcpReceivingChannelAdapter;
+import org.springframework.integration.ip.tcp.TcpInboundGateway;
 import org.springframework.integration.ip.tcp.connection.AbstractServerConnectionFactory;
 import org.springframework.integration.ip.tcp.connection.TcpNetServerConnectionFactory;
 import org.springframework.integration.transformer.ObjectToStringTransformer;
@@ -25,20 +25,27 @@ public class TcpSocketConfiguration {
     }
 
     @Bean
-    public TcpReceivingChannelAdapter inbound(AbstractServerConnectionFactory cf) {
-        TcpReceivingChannelAdapter adapter = new TcpReceivingChannelAdapter();
-        adapter.setConnectionFactory(cf);
-        adapter.setOutputChannel(tcpIn());
-        return adapter;
-    }
-
-    @Bean
-    public MessageChannel tcpIn() {
+    public MessageChannel inputChannel() {
         return new DirectChannel();
     }
 
+
     @Bean
-    @Transformer(inputChannel = "tcpIn", outputChannel = "serviceChannel")
+    public MessageChannel outputChannel() {
+    	return new DirectChannel();
+    }
+
+    @Bean
+    public TcpInboundGateway tcpInGate(AbstractServerConnectionFactory cf)  {
+        TcpInboundGateway inGateway = new TcpInboundGateway();
+        inGateway.setConnectionFactory(cf());
+        inGateway.setRequestChannel(inputChannel());
+        inGateway.setReplyChannel(outputChannel());
+        return inGateway;
+    }
+    
+    @Bean
+    @Transformer(inputChannel = "inputChannel", outputChannel = "serviceChannel")
     public ObjectToStringTransformer transformer() {
         return new ObjectToStringTransformer();
     }

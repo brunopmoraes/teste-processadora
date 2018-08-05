@@ -10,8 +10,9 @@ import org.springframework.stereotype.Component;
 public class TransactionActivator {
 
 	@ServiceActivator(inputChannel = "serviceChannel")
-    public void service(String in) {
+    public String service(String in) {
         System.out.println(new SimpleDateFormat("HH:mm:ss").format(new Date()) + in);
+        return "Ab";
     }
 	
 }
