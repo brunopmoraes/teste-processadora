@@ -31,3 +31,8 @@
     - 51: saldo insuficiente.
     - 14: conta inválida.
     - 96: erro de processamento.
+
+## Massa de dados
+
+* Número dos cartões: 1234123412341234, 1234567890982312
+* Valor disponível em cada um: 1000
