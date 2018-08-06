@@ -14,7 +14,7 @@ import org.springframework.messaging.MessageChannel;
 
 @Configuration
 @EnableIntegration
-public class TcpSocketConfiguration {
+public class TcpSocketConfig {
 
 	@Value("${application.socket.tcp.port}")
 	private Integer socketTcpPortListen;
