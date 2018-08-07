@@ -1,7 +1,6 @@
 package br.com.teste.processadora.service.transaction.action;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.when;
@@ -24,7 +23,6 @@ import br.com.teste.processadora.model.enums.ActionTransaction;
 import br.com.teste.processadora.model.enums.StatusCode;
 import br.com.teste.processadora.repository.CreditCardRepository;
 import br.com.teste.processadora.repository.TransactionCreditCardRepository;
-import br.com.teste.processadora.service.transaction.action.WithdrawalTransactionService;
 import br.com.teste.processadora.utils.CreditCardUtils;
 
 @SpringBootTest
@@ -55,6 +53,7 @@ public class WithdrawalTransactionServiceTest {
 	@Test
 	public void testTransactionalApproved() {
 		when(creditCardRepository.findByNumber(anyString())).thenReturn(CreditCardUtils.getCreditCardWithBalance());
+		when(creditCardRepository.executeWithdrawalTransaction(anyString(), any(BigDecimal.class))).thenReturn(StatusCode.APROVED.getCode());
 		
 		TransactionCreditCard transactionCreditCard = withdrawalTransactionService.executeAction(
 				TransactionRequest.builder()
@@ -63,13 +62,13 @@ public class WithdrawalTransactionServiceTest {
 					.cardNumber("1234567890982312")
 					.build());
 		
-		assertTrue(transactionCreditCard.getCreditCard().getBalance().compareTo(new BigDecimal("399.02")) == 0);
 		assertEquals(transactionCreditCard.getCode(), StatusCode.APROVED);
 	}
 	
 	@Test
 	public void testTransactionalInsufficientBalance() {
 		when(creditCardRepository.findByNumber(anyString())).thenReturn(CreditCardUtils.getCreditCardWithoutBalance());
+		when(creditCardRepository.executeWithdrawalTransaction(anyString(), any(BigDecimal.class))).thenReturn(StatusCode.INSUFFICIENT_BALANCE.getCode());
 		
 		TransactionCreditCard transactionCreditCard = withdrawalTransactionService.executeAction(
 				TransactionRequest.builder()
@@ -78,7 +77,6 @@ public class WithdrawalTransactionServiceTest {
 					.cardNumber("1234123412341234")
 					.build());
 		
-		assertTrue(transactionCreditCard.getCreditCard().getBalance().compareTo(BigDecimal.ZERO) == 0);
 		assertEquals(transactionCreditCard.getCode(), StatusCode.INSUFFICIENT_BALANCE);
 	}
 	

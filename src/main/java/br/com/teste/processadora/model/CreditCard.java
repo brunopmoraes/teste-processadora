@@ -48,8 +48,4 @@ public class CreditCard {
 	
 	@Getter	
 	private BigDecimal balance;
-	
-	public void subtractBalance(BigDecimal amount) {
-		this.balance = balance.subtract(amount);
-	}	
 }
