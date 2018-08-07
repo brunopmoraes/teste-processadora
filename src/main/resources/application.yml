@@ -10,7 +10,10 @@ spring:
         strategy: org.hibernate.cfg.ImprovedNamingStrategy
   jooq: 
     sql-dialect: org.hibernate.dialect.PostgreSQLDialect
-    
+  jackson:
+    serialization: 
+      write-dates-as-timestamps: false
+
 application: 
   max: 
     attempt: 
