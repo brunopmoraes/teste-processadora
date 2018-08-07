@@ -38,9 +38,10 @@ public class WithdrawalTransactionService implements ActionTransactionService {
 			CreditCard creditCard = creditCardRepository.findByNumber(transactionRequest.getCardNumber());
 			transactionCreditCard.setCreditCard(creditCard);
 			
-			if (isValidTransaction(transactionCreditCard)) {
-				creditCard.subtractBalance(transactionCreditCard.getAmount());
-				creditCardRepository.save(creditCard);
+			if (isValidCreditCard(transactionCreditCard)) {
+				String statusCode = creditCardRepository.executeWithdrawalTransaction(creditCard.getNumber(),
+						transactionCreditCard.getAmount());
+				transactionCreditCard.setCode(StatusCode.getStatusByCode(statusCode));
 			}
 			
 			transactionCreditCardService.save(transactionCreditCard);
@@ -53,10 +54,6 @@ public class WithdrawalTransactionService implements ActionTransactionService {
 		}
 	}
 
-	private boolean isValidTransaction(TransactionCreditCard transactionCreditCard) {
-		return isValidCreditCard(transactionCreditCard);
-	}
-
 	private boolean isValidCreditCard(TransactionCreditCard transactionCreditCard) {
 		
 		if (Objects.isNull(transactionCreditCard.getCreditCard())) {
@@ -64,18 +61,6 @@ public class WithdrawalTransactionService implements ActionTransactionService {
 			return false;
 		}
 		
-		return isValidBalance(transactionCreditCard);
-	}
-
-	private boolean isValidBalance(TransactionCreditCard transactionCreditCard) {
-
-		if (transactionCreditCard.getCreditCard().getBalance()
-				.compareTo(transactionCreditCard.getAmount()) < 0) {
-			transactionCreditCard.setCode(StatusCode.INSUFFICIENT_BALANCE);
-			return false;
-		}
-		
-		transactionCreditCard.setCode(StatusCode.APROVED);
 		return true;
 	}
 }

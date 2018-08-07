@@ -1,5 +1,7 @@
 package br.com.teste.processadora.model.enums;
 
+import java.util.Arrays;
+
 public enum StatusCode {
 	
 	APROVED("00"),
@@ -15,5 +17,14 @@ public enum StatusCode {
 	
 	public String getCode() {
 		return code;
+	}
+	
+	public static StatusCode getStatusByCode(String code) {
+		for (StatusCode statusCode : Arrays.asList(StatusCode.values())) {
+			if (statusCode.getCode().equals(code)) {
+				return statusCode;
+			}
+		}
+		return null;
 	}
 }

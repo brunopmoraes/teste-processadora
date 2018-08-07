@@ -6,6 +6,9 @@ import java.util.UUID;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.NamedStoredProcedureQuery;
+import javax.persistence.ParameterMode;
+import javax.persistence.StoredProcedureParameter;
 
 import org.hibernate.annotations.GenericGenerator;
 
@@ -19,6 +22,13 @@ import lombok.Setter;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@NamedStoredProcedureQuery(name = "sp_withdrawal_transaction", procedureName = "sp_withdrawal_transaction",
+	parameters = {
+        @StoredProcedureParameter(mode = ParameterMode.IN, name = "credit_card_number", type = String.class),
+        @StoredProcedureParameter(mode = ParameterMode.IN, name = "amount", type = BigDecimal.class),
+        @StoredProcedureParameter(mode = ParameterMode.OUT, name = "status", type = String.class)
+	}
+)
 public class CreditCard {
 
 	@Id
